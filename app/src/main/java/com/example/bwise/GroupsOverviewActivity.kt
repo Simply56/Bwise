@@ -106,7 +106,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
                     call: Call<GetUserGroupsResponse>, response: Response<GetUserGroupsResponse>
                 ) {
                     if (response.isSuccessful) {
-                        displayGroups(response.body()?.groups ?: emptyList())
+                        displayGroups(response.body()?.groups ?: emptyList(), username)
                     } else {
                         Toast.makeText(
                             this@GroupsOverviewActivity,
@@ -128,13 +128,22 @@ class GroupsOverviewActivity : AppCompatActivity() {
             })
     }
 
-    private fun displayGroups(groups: List<Group>) {
+    private fun displayGroups(groups: List<Group>, username: String) {
         val groupLinearLayout = findViewById<LinearLayout>(R.id.group_linear_layout)
         for (i in 0 until min(groupLinearLayout.childCount, groups.size)) {
             val childView = groupLinearLayout.getChildAt(i)
             if (childView is TextView) {
                 childView.text = groups[i].name
                 childView.setOnClickListener {
+
+                    val intent =
+                        Intent(this@GroupsOverviewActivity, GroupDetailsActivity::class.java)
+                    intent.putExtra("username", username)
+                    intent.putExtra("group_name", groups[i].name)
+                    intent.putExtra("creator", groups[i].creator)
+                    intent.putStringArrayListExtra("members", ArrayList(groups[i].members))
+                    startActivity(intent)
+
                     Toast.makeText(this, "Group clicked: ${groups[i].name}", Toast.LENGTH_SHORT)
                         .show()
                 }
