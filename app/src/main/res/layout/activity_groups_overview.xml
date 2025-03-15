@@ -130,6 +130,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/group_text_view_9" />
 
+
+    <EditText
+        android:id="@+id/group_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Group name"
+        app:layout_constraintBottom_toTopOf="@id/create_group_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/group_text_view_10" />
+
     <Button
         android:id="@+id/create_group_button"
         android:layout_width="wrap_content"
@@ -137,16 +147,17 @@
         android:text="Create"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/group_name_edit_text" />"
 
     <Button
-
         android:id="@+id/join_group_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Join"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/group_name_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

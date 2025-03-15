@@ -3,6 +3,8 @@ package com.example.bwise
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -28,14 +30,28 @@ class GroupsOverviewActivity : AppCompatActivity() {
             insets
         }
 
-        val username = intent.getStringExtra("username")
-        if (username != null) {
-            tryGetUserGroups(username)
-        } else {
+        var username = intent.getStringExtra("username")
+        if (username == null) {
             Toast.makeText(this, "No username provided", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@GroupsOverviewActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            username = "this will never happen"
         }
+        tryGetUserGroups(username)
+        val createGroupButton = findViewById<Button>(R.id.create_group_button)
+        val joinGroupButton = findViewById<Button>(R.id.join_group_button)
+        val newGroupNameEditText = findViewById<EditText>(R.id.group_name_edit_text)
 
+        createGroupButton.setOnClickListener {
+            tryCreateGroup(username, newGroupNameEditText.text.toString())
+        }
+        joinGroupButton.setOnClickListener {
+            tryJoinGroup(username, newGroupNameEditText.text.toString())
+
+        }
     }
+
 
     data class GetUserGroupsRequest(
         val username: String
@@ -61,11 +77,16 @@ class GroupsOverviewActivity : AppCompatActivity() {
     interface ApiService {
         @POST("/get_user_groups")
         fun getUserGroups(@Body request: GetUserGroupsRequest): Call<GetUserGroupsResponse>
+
+        @POST("/create_group")
+        fun createGroup(@Body request: CreateGroupRequest): Call<CreateGroupResponse>
+
+        @POST("/join_group")
+        fun joinGroup(@Body request: JoinGroupRequest): Call<JoinGroupResponse>
     }
 
     object RetrofitClient {
-        private val retrofit = Retrofit.Builder()
-            .baseUrl("http://152.67.64.149:5000")
+        private val retrofit = Retrofit.Builder().baseUrl("http://152.67.64.149:5000")
             .addConverterFactory(GsonConverterFactory.create()) // Use Gson for JSON parsing
             .build()
 
@@ -80,15 +101,14 @@ class GroupsOverviewActivity : AppCompatActivity() {
         RetrofitClient.apiService.getUserGroups(request)
             .enqueue(object : Callback<GetUserGroupsResponse> {
                 override fun onResponse(
-                    call: Call<GetUserGroupsResponse>,
-                    response: Response<GetUserGroupsResponse>
+                    call: Call<GetUserGroupsResponse>, response: Response<GetUserGroupsResponse>
                 ) {
                     if (response.isSuccessful) {
                         displayGroups(response.body()?.groups ?: emptyList())
                     } else {
                         Toast.makeText(
                             this@GroupsOverviewActivity,
-                            "Login failed",
+                            "Failed to get user groups",
                             Toast.LENGTH_SHORT
                         ).show()
                         Log.e("API_ERROR", "Error: ${response.code()}")
@@ -100,8 +120,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
                         this@GroupsOverviewActivity,
                         "Failed to send/receive data",
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                     Log.e("API_FAILURE", "Request failed", t)
                 }
             })
@@ -124,6 +143,93 @@ class GroupsOverviewActivity : AppCompatActivity() {
             )
         for (i in groups.indices) {
             groupTextViews[i].text = groups[i].name
+            groupTextViews[i].setOnClickListener {
+                Toast.makeText(this, "Group clicked: ${groups[i].name}", Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    data class CreateGroupRequest(
+        val group_name: String,
+        val username: String,
+    )
+
+    data class CreateGroupResponse(
+        val group: Group,
+    )
+
+    private fun tryCreateGroup(username: String, newGroupName: String) {
+        Toast.makeText(this, "Creating group $newGroupName", Toast.LENGTH_SHORT).show()
+        val request = CreateGroupRequest(
+            group_name = newGroupName, username = username
+        )
+
+        RetrofitClient.apiService.createGroup(request)
+            .enqueue(object : Callback<CreateGroupResponse> {
+                override fun onResponse(
+                    call: Call<CreateGroupResponse>, response: Response<CreateGroupResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        tryGetUserGroups(username)
+                    } else {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity,
+                            "Failed to create group",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("API_ERROR", "Error: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<CreateGroupResponse>, t: Throwable) {
+                    Toast.makeText(
+                        this@GroupsOverviewActivity,
+                        "Failed to send/receive data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("API_FAILURE", "Request failed", t)
+                }
+            })
+    }
+
+
+    data class JoinGroupRequest(
+        val group_name: String,
+        val username: String,
+    )
+
+    data class JoinGroupResponse(
+        val group: Group,
+    )
+
+    private fun tryJoinGroup(username: String, newGroupName: String) {
+        val request = JoinGroupRequest(
+            group_name = newGroupName, username = username
+        )
+
+        RetrofitClient.apiService.joinGroup(request)
+            .enqueue(object : Callback<JoinGroupResponse> {
+                override fun onResponse(
+                    call: Call<JoinGroupResponse>, response: Response<JoinGroupResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        tryGetUserGroups(username)
+                    } else {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity, "Failed to join group", Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("API_ERROR", "Error: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<JoinGroupResponse>, t: Throwable) {
+                    Toast.makeText(
+                        this@GroupsOverviewActivity,
+                        "Failed to send/receive data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("API_FAILURE", "Request failed", t)
+                }
+            })
     }
 }
