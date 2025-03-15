@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import kotlin.math.min
 
 class GroupsOverviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,24 +129,15 @@ class GroupsOverviewActivity : AppCompatActivity() {
     }
 
     private fun displayGroups(groups: List<Group>) {
-        val groupTextViews = listOf(
-            findViewById<TextView>(R.id.group_text_view_0),
-            findViewById<TextView>(R.id.group_text_view_1),
-            findViewById<TextView>(R.id.group_text_view_2),
-            findViewById<TextView>(R.id.group_text_view_3),
-            findViewById<TextView>(R.id.group_text_view_4),
-            findViewById<TextView>(R.id.group_text_view_5),
-            findViewById<TextView>(R.id.group_text_view_6),
-            findViewById<TextView>(R.id.group_text_view_7),
-            findViewById<TextView>(R.id.group_text_view_8),
-            findViewById<TextView>(R.id.group_text_view_9),
-            findViewById<TextView>(R.id.group_text_view_10),
-
-            )
-        for (i in groups.indices) {
-            groupTextViews[i].text = groups[i].name
-            groupTextViews[i].setOnClickListener {
-                Toast.makeText(this, "Group clicked: ${groups[i].name}", Toast.LENGTH_SHORT).show()
+        val groupLinearLayout = findViewById<LinearLayout>(R.id.group_linear_layout)
+        for (i in 0 until min(groupLinearLayout.childCount, groups.size)) {
+            val childView = groupLinearLayout.getChildAt(i)
+            if (childView is TextView) {
+                childView.text = groups[i].name
+                childView.setOnClickListener {
+                    Toast.makeText(this, "Group clicked: ${groups[i].name}", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }
