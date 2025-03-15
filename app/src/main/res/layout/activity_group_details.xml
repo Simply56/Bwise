@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="10dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="30dp"
+    tools:context=".GroupDetailsActivity">
+
+    <TextView
+        android:id="@+id/group_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Group name"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:paddingBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/add_expense_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/group_name_text_view">
+
+        <TableLayout
+            android:id="@+id/members_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:stretchColumns="0"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_0"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_0"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_1"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_1"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_2"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_2"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_3"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_3"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_4"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_4"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_5"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_5"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_6"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_6"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_7"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_7"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_8"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_8"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_9"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_9"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_10"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_10"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_11"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_11"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_12"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_12"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_13"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_13"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_14"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_14"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_15"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_15"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_16"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_16"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_17"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_17"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_18"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_18"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_19"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_19"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/member_text_view_20"
+                    android:padding="3dp"
+                    android:text="member name"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/member_debt_text_view_20"
+                    android:padding="3dp"
+                    android:text="-20"
+                    android:textAlignment="textEnd"
+                    android:textSize="22sp" />
+            </TableRow>
+
+            <!-- More TextViews can be added dynamically in code -->
+        </TableLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/add_expense_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add expense"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/kick_user_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kick user"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
