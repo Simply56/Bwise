@@ -24,6 +24,7 @@ class GroupDetailsActivity : AppCompatActivity() {
             insets
         }
 
+
         var username = intent.getStringExtra("username")
         var group_name = intent.getStringExtra("group_name")
         var creator = intent.getStringExtra("creator")
@@ -60,14 +61,17 @@ class GroupDetailsActivity : AppCompatActivity() {
             members = arrayListOf("this will never happen")
         }
 
-        displayMembers(members.toList())
+        val groupNameTextView = findViewById<TextView>(R.id.group_name_text_view)
+        groupNameTextView.text = group_name
+
+        displayData(members.toList())
 
         // TODO: add functionality to buttons
         val addExpenseButton = findViewById<Button>(R.id.add_expense_button)
         val kickUserButton = findViewById<Button>(R.id.kick_user_button)
     }
 
-    private fun displayMembers(members: List<String>) {
+    private fun displayData(members: List<String>) {
         val membersTableLayout = findViewById<TableLayout>(R.id.members_table_layout)
         for (i in 0 until min(membersTableLayout.childCount, members.size)) {
             val childRow = membersTableLayout.getChildAt(i)
