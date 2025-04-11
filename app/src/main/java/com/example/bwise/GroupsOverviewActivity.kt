@@ -43,16 +43,19 @@ class GroupsOverviewActivity : AppCompatActivity() {
         tryGetUserGroups(username)
         val createGroupButton = findViewById<Button>(R.id.create_group_button)
         val joinGroupButton = findViewById<Button>(R.id.join_group_button)
-        // TODO: ADD FUNCTIONALITY TO DELETE GROUP
         val deleteGroupButton = findViewById<Button>(R.id.delete_group_button)
-        val newGroupNameEditText = findViewById<EditText>(R.id.group_name_edit_text)
+        val groupNameInput = findViewById<EditText>(R.id.group_name_edit_text)
 
         createGroupButton.setOnClickListener {
-            tryCreateGroup(username, newGroupNameEditText.text.toString())
+            tryCreateGroup(username, groupNameInput.text.toString())
         }
         joinGroupButton.setOnClickListener {
-            tryJoinGroup(username, newGroupNameEditText.text.toString())
+            tryJoinGroup(username, groupNameInput.text.toString())
 
+        }
+
+        deleteGroupButton.setOnClickListener {
+            tryDeleteGroup(username, groupNameInput.text.toString())
         }
     }
 
@@ -87,6 +90,9 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
         @POST("/join_group")
         fun joinGroup(@Body request: JoinGroupRequest): Call<JoinGroupResponse>
+
+        @POST("/delete_group")
+        fun deleteGroup(@Body request: DeleteGroupRequest): Call<DeleteGroupResponse>
     }
 
     object RetrofitClient {
@@ -227,6 +233,47 @@ class GroupsOverviewActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<JoinGroupResponse>, t: Throwable) {
+                    Toast.makeText(
+                        this@GroupsOverviewActivity,
+                        "Failed to send/receive data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("API_FAILURE", "Request failed", t)
+                }
+            })
+    }
+
+    data class DeleteGroupRequest(
+        val group_name: String,
+        val username: String,
+    )
+
+    data class DeleteGroupResponse(
+        val error: String
+    )
+
+    private fun tryDeleteGroup(username: String, groupToDelete: String) {
+        val request = DeleteGroupRequest(
+            group_name = groupToDelete, username = username
+        )
+
+        RetrofitClient.apiService.deleteGroup(request)
+            .enqueue(object : Callback<DeleteGroupResponse> {
+                override fun onResponse(
+                    call: Call<DeleteGroupResponse>, response: Response<DeleteGroupResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        tryGetUserGroups(username) // update the group list
+                    } else {
+                        Toast.makeText(
+                            // TODO: verify that getting the error msg doesn't crash the app
+                            this@GroupsOverviewActivity, response.body()?.error, Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("API_ERROR", "Error: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<DeleteGroupResponse>, t: Throwable) {
                     Toast.makeText(
                         this@GroupsOverviewActivity,
                         "Failed to send/receive data",
