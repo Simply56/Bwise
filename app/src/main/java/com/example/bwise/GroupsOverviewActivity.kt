@@ -43,6 +43,8 @@ class GroupsOverviewActivity : AppCompatActivity() {
         tryGetUserGroups(username)
         val createGroupButton = findViewById<Button>(R.id.create_group_button)
         val joinGroupButton = findViewById<Button>(R.id.join_group_button)
+        // TODO: ADD FUNCTIONALITY TO DELETE GROUP
+        val deleteGroupButton = findViewById<Button>(R.id.delete_group_button)
         val newGroupNameEditText = findViewById<EditText>(R.id.group_name_edit_text)
 
         createGroupButton.setOnClickListener {
