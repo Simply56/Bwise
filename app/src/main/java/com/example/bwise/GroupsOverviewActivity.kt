@@ -102,7 +102,9 @@ class GroupsOverviewActivity : AppCompatActivity() {
         val apiService: ApiService = retrofit.create(ApiService::class.java)
     }
 
-    // Makes gets user groups and calls function to display them if successful
+    /**
+     * Gets the user's groups from the API and displays them in the UI.
+     */
     private fun tryGetUserGroups(username: String) {
         // call API to get user groups
         val request = GetUserGroupsRequest(username = username)
@@ -137,6 +139,15 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
     private fun displayGroups(groups: List<Group>, username: String) {
         val groupLinearLayout = findViewById<LinearLayout>(R.id.group_linear_layout)
+
+        // clear text from children
+        for (i in 0 until groupLinearLayout.childCount) {
+            val childView = groupLinearLayout.getChildAt(i)
+            if (childView is TextView) {
+                childView.text = ""
+            }
+        }
+
         for (i in 0 until min(groupLinearLayout.childCount, groups.size)) {
             val childView = groupLinearLayout.getChildAt(i)
             if (childView is TextView) {
@@ -148,6 +159,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
                     intent.putExtra("username", username)
                     intent.putExtra("group_name", groups[i].name)
                     intent.putExtra("creator", groups[i].creator)
+                    // TODO: THIS SHOWS OUTDATED DATA IF USER JOINED AFTER LOADING GROUPS
                     intent.putStringArrayListExtra("members", ArrayList(groups[i].members))
                     startActivity(intent)
 
@@ -229,7 +241,9 @@ class GroupsOverviewActivity : AppCompatActivity() {
                         tryGetUserGroups(username)
                     } else {
                         Toast.makeText(
-                            this@GroupsOverviewActivity, "Failed to join group", Toast.LENGTH_SHORT
+                            this@GroupsOverviewActivity,
+                            "Failed to join group",
+                            Toast.LENGTH_SHORT
                         ).show()
                         Log.e("API_ERROR", "Error: ${response.code()}")
                     }
