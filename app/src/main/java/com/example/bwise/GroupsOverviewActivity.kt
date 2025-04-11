@@ -51,7 +51,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
         }
         joinGroupButton.setOnClickListener {
             tryJoinGroup(username, groupNameInput.text.toString())
-
         }
 
         deleteGroupButton.setOnClickListener {
@@ -169,7 +168,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
     )
 
     private fun tryCreateGroup(username: String, newGroupName: String) {
-        Toast.makeText(this, "Creating group $newGroupName", Toast.LENGTH_SHORT).show()
         val request = CreateGroupRequest(
             group_name = newGroupName, username = username
         )
@@ -180,6 +178,11 @@ class GroupsOverviewActivity : AppCompatActivity() {
                     call: Call<CreateGroupResponse>, response: Response<CreateGroupResponse>
                 ) {
                     if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity,
+                            "Creating group $newGroupName",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         tryGetUserGroups(username)
                     } else {
                         Toast.makeText(
@@ -263,11 +266,17 @@ class GroupsOverviewActivity : AppCompatActivity() {
                     call: Call<DeleteGroupResponse>, response: Response<DeleteGroupResponse>
                 ) {
                     if (response.isSuccessful) {
-                        tryGetUserGroups(username) // update the group list
+                        Toast.makeText(
+                            this@GroupsOverviewActivity,
+                            "Deleting group $groupToDelete",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        tryGetUserGroups(username) // show the updated group list
                     } else {
                         Toast.makeText(
-                            // TODO: verify that getting the error msg doesn't crash the app
-                            this@GroupsOverviewActivity, response.body()?.error, Toast.LENGTH_SHORT
+                            this@GroupsOverviewActivity,
+                            "Failed to delete group",
+                            Toast.LENGTH_SHORT
                         ).show()
                         Log.e("API_ERROR", "Error: ${response.code()}")
                     }
