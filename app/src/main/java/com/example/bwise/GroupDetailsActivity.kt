@@ -31,7 +31,7 @@ class GroupDetailsActivity : AppCompatActivity() {
         var username = intent.getStringExtra("username")
         var group_name = intent.getStringExtra("group_name")
         var creator = intent.getStringExtra("creator")
-        var members = intent.getStringArrayListExtra("members")
+        var members = intent.getStringArrayListExtra("members") // TODO: THIS SHOWS OUTDATED DATA
 
         if (username == null) {
             Toast.makeText(this, "No username provided", Toast.LENGTH_SHORT).show()
