@@ -66,34 +66,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
             tryDeleteGroup(username, groupNameInput.text.toString())
         }
     }
-
-
-
-
-
-
-    interface ApiService {
-        @POST("/get_user_groups")
-        fun getUserGroups(@Body request: GetUserGroupsRequest): Call<GetUserGroupsResponse>
-
-        @POST("/create_group")
-        fun createGroup(@Body request: CreateGroupRequest): Call<CreateGroupResponse>
-
-        @POST("/join_group")
-        fun joinGroup(@Body request: JoinGroupRequest): Call<JoinGroupResponse>
-
-        @POST("/delete_group")
-        fun deleteGroup(@Body request: DeleteGroupRequest): Call<DeleteGroupResponse>
-    }
-
-    object RetrofitClient {
-        private val retrofit = Retrofit.Builder().baseUrl("http://152.67.64.149:5000")
-            .addConverterFactory(GsonConverterFactory.create()) // Use Gson for JSON parsing
-            .build()
-
-        val apiService: ApiService = retrofit.create(ApiService::class.java)
-    }
-
     /**
      * Gets the user's groups from the API and displays them in the UI.
      */

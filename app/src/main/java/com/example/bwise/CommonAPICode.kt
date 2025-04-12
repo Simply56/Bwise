@@ -3,6 +3,14 @@ package com.example.bwise
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.example.bwise.DataClasses.CreateGroupRequest
+import com.example.bwise.DataClasses.CreateGroupResponse
+import com.example.bwise.DataClasses.DeleteGroupRequest
+import com.example.bwise.DataClasses.DeleteGroupResponse
+import com.example.bwise.DataClasses.GetUserGroupsRequest
+import com.example.bwise.DataClasses.GetUserGroupsResponse
+import com.example.bwise.DataClasses.JoinGroupRequest
+import com.example.bwise.DataClasses.JoinGroupResponse
 import com.example.bwise.DataClasses.LoginRequest
 import com.example.bwise.DataClasses.LoginResponse
 import retrofit2.Call
@@ -17,6 +25,17 @@ import retrofit2.http.POST
 interface ApiService {
     @POST("/login")
     fun login(@Body request: LoginRequest): Call<LoginResponse>
+    @POST("/get_user_groups")
+    fun getUserGroups(@Body request: GetUserGroupsRequest): Call<GetUserGroupsResponse>
+
+    @POST("/create_group")
+    fun createGroup(@Body request: CreateGroupRequest): Call<CreateGroupResponse>
+
+    @POST("/join_group")
+    fun joinGroup(@Body request: JoinGroupRequest): Call<JoinGroupResponse>
+
+    @POST("/delete_group")
+    fun deleteGroup(@Body request: DeleteGroupRequest): Call<DeleteGroupResponse>
 }
 
 object RetrofitClient {
