@@ -38,7 +38,7 @@ class GroupDetailsActivity : AppCompatActivity() {
         val groupNameTextView = findViewById<TextView>(R.id.group_name_text_view)
         groupNameTextView.text = group_name
 
-        displayData(members.toList())
+        populateMembers(members.toList())
 
         val addExpenseButton = findViewById<Button>(R.id.add_expense_button)
         val kickUserButton = findViewById<Button>(R.id.kick_user_button)
@@ -82,8 +82,23 @@ class GroupDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayData(members: List<String>) {
+
+
+    private fun populateMembers(members: List<String>) {
         val membersTableLayout = findViewById<TableLayout>(R.id.members_table_layout)
+
+        // clears text in each group member
+        for (i in 0 until membersTableLayout.childCount){
+            if (membersTableLayout.getChildAt(i) !is TableRow){
+                continue
+            }
+            val childRow = membersTableLayout.getChildAt(i) as TableRow
+            val memberTextView = childRow.getChildAt(0) as TextView
+            memberTextView.text = ""
+        }
+
+
+        // adds the correct name to each member
         for (i in 0 until min(membersTableLayout.childCount, members.size)) {
             val childRow = membersTableLayout.getChildAt(i)
             if (childRow is TableRow) {
