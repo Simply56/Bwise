@@ -1,24 +1,16 @@
 package com.example.bwise
 
-import android.util.Log
-import retrofit2.Callback
 import retrofit2.Response
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.bwise.DataClasses.LoginRequest
 import com.example.bwise.DataClasses.LoginResponse
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,20 +30,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    interface ApiService {
-        @POST("/login")
-        fun login(@Body request: LoginRequest): Call<LoginResponse>
-    }
-
-    object RetrofitClient {
-        private val retrofit = Retrofit.Builder()
-            .baseUrl("http://152.67.64.149:5000")
-            .addConverterFactory(GsonConverterFactory.create()) // Use Gson for JSON parsing
-            .build()
-
-        val apiService: ApiService = retrofit.create(ApiService::class.java)
-    }
 
     private fun tryLogin() {
         val usernameEditText = findViewById<EditText>(R.id.user_edit_text)
