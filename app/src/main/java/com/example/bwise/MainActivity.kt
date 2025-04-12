@@ -12,6 +12,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.bwise.DataClasses.LoginRequest
+import com.example.bwise.DataClasses.LoginResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.Call
@@ -37,16 +39,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    data class LoginRequest(
-        val username: String,
-    )
-
-    data class LoginResponse(
-        val username: String,
-    )
 
     interface ApiService {
-        @POST("/login")  // Change this to your endpoint
+        @POST("/login")
         fun login(@Body request: LoginRequest): Call<LoginResponse>
     }
 

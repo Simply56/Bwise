@@ -12,6 +12,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.bwise.DataClasses.CreateGroupRequest
+import com.example.bwise.DataClasses.CreateGroupResponse
+import com.example.bwise.DataClasses.DeleteGroupRequest
+import com.example.bwise.DataClasses.DeleteGroupResponse
+import com.example.bwise.DataClasses.GetUserGroupsRequest
+import com.example.bwise.DataClasses.GetUserGroupsResponse
+import com.example.bwise.DataClasses.Group
+import com.example.bwise.DataClasses.JoinGroupRequest
+import com.example.bwise.DataClasses.JoinGroupResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,26 +68,9 @@ class GroupsOverviewActivity : AppCompatActivity() {
     }
 
 
-    data class GetUserGroupsRequest(
-        val username: String
-    )
 
-    data class GetUserGroupsResponse(
-        val groups: List<Group>
-    )
 
-    data class Group(
-        val creator: String,
-        val members: List<String>,
-        val name: String,
-        val transactions: List<Transaction>
-    )
 
-    data class Transaction(
-        val from_user: String,
-        val to_user: String,
-        val amount: Int,
-    )
 
     interface ApiService {
         @POST("/get_user_groups")
@@ -170,14 +162,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
         }
     }
 
-    data class CreateGroupRequest(
-        val group_name: String,
-        val username: String,
-    )
-
-    data class CreateGroupResponse(
-        val group: Group,
-    )
 
     private fun tryCreateGroup(username: String, newGroupName: String) {
         val request = CreateGroupRequest(
@@ -218,14 +202,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
     }
 
 
-    data class JoinGroupRequest(
-        val group_name: String,
-        val username: String,
-    )
-
-    data class JoinGroupResponse(
-        val group: Group,
-    )
 
     private fun tryJoinGroup(username: String, newGroupName: String) {
         val request = JoinGroupRequest(
@@ -260,14 +236,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
             })
     }
 
-    data class DeleteGroupRequest(
-        val group_name: String,
-        val username: String,
-    )
-
-    data class DeleteGroupResponse(
-        val error: String
-    )
 
     private fun tryDeleteGroup(username: String, groupToDelete: String) {
         val request = DeleteGroupRequest(
