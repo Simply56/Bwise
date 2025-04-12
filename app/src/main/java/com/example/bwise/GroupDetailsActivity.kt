@@ -13,9 +13,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.bwise.DataClasses.GetUserGroupsRequest
+import com.example.bwise.DataClasses.GetUserGroupsResponse
+import retrofit2.Response
 import kotlin.math.min
 
 class GroupDetailsActivity : AppCompatActivity() {
+
+    var username: String = ""
+    var group_name: String = ""
+    var creator: String = ""
+    var members: List<String> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,11 +37,9 @@ class GroupDetailsActivity : AppCompatActivity() {
 
 
         // HACK: this will crash if the any of the extras are null (not found)
-        var username: String = intent.getStringExtra("username")!!
-        var group_name: String = intent.getStringExtra("group_name")!!
-        var creator: String = intent.getStringExtra("creator")!!
-        // TODO: THIS SHOWS OUTDATED DATA
-        var members: List<String> = intent.getStringArrayListExtra("members")!!
+        username = intent.getStringExtra("username")!!
+        group_name = intent.getStringExtra("group_name")!!
+        creator = intent.getStringExtra("creator")!!
 
 
         val groupNameTextView = findViewById<TextView>(R.id.group_name_text_view)
@@ -45,7 +52,7 @@ class GroupDetailsActivity : AppCompatActivity() {
 
         addExpenseButton.setOnClickListener {
             val input = EditText(this)
-            input.inputType = InputType.TYPE_CLASS_NUMBER  // Numeric-only input
+            input.inputType = InputType.TYPE_CLASS_NUMBER  // Positive numeric-only input
 
             AlertDialog.Builder(this)
                 .setTitle("Enter a number")
@@ -82,14 +89,19 @@ class GroupDetailsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // refresh the members list each time the activity is resumed
+        tryGetUserGroups(username)
+    }
 
 
     private fun populateMembers(members: List<String>) {
         val membersTableLayout = findViewById<TableLayout>(R.id.members_table_layout)
 
         // clears text in each group member
-        for (i in 0 until membersTableLayout.childCount){
-            if (membersTableLayout.getChildAt(i) !is TableRow){
+        for (i in 0 until membersTableLayout.childCount) {
+            if (membersTableLayout.getChildAt(i) !is TableRow) {
                 continue
             }
             val childRow = membersTableLayout.getChildAt(i) as TableRow
@@ -110,5 +122,27 @@ class GroupDetailsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * Gets the user's groups from the API and displays them in the UI.
+     */
+    private fun tryGetUserGroups(username: String) {
+        val request = GetUserGroupsRequest(username = username)
+
+        RetrofitClient.apiService.getUserGroups(request)
+            .enqueue(object : BaseCallback<GetUserGroupsResponse>(this) {
+                override fun handleSuccess(response: Response<GetUserGroupsResponse>) {
+                    // update members
+                    for (group in response.body()?.groups ?: emptyList()) {
+                        if (group.name == group_name) {
+                            members = group.members
+                            populateMembers(group.members)
+                            break
+                        }
+                    }
+                }
+
+            })
     }
 }

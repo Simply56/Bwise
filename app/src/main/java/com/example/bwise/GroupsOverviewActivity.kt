@@ -34,14 +34,8 @@ class GroupsOverviewActivity : AppCompatActivity() {
             insets
         }
 
-        var username = intent.getStringExtra("username")
-        if (username == null) {
-            Toast.makeText(this, "No username provided", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@GroupsOverviewActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-            username = "this will never happen"
-        }
+        // HACK: this will crash if the username is null (not found)
+        var username = intent.getStringExtra("username")!!
         tryGetUserGroups(username)
         val createGroupButton = findViewById<Button>(R.id.create_group_button)
         val joinGroupButton = findViewById<Button>(R.id.join_group_button)
@@ -63,7 +57,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
      * Gets the user's groups from the API and displays them in the UI.
      */
     private fun tryGetUserGroups(username: String) {
-        // call API to get user groups
         val request = GetUserGroupsRequest(username = username)
 
         RetrofitClient.apiService.getUserGroups(request)
@@ -145,8 +138,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
                 intent.putExtra("username", username)
                 intent.putExtra("group_name", groups[i].name)
                 intent.putExtra("creator", groups[i].creator)
-                // TODO: THIS SHOWS OUTDATED DATA IF USER JOINED AFTER LOADING GROUPS
-                intent.putStringArrayListExtra("members", ArrayList(groups[i].members))
                 startActivity(intent)
 
                 Toast.makeText(this, "Group clicked: ${groups[i].name}", Toast.LENGTH_SHORT)
