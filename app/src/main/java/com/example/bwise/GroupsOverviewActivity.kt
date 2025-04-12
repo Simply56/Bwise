@@ -2,7 +2,6 @@ package com.example.bwise
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -21,7 +20,6 @@ import com.example.bwise.DataClasses.GetUserGroupsResponse
 import com.example.bwise.DataClasses.Group
 import com.example.bwise.DataClasses.JoinGroupRequest
 import com.example.bwise.DataClasses.JoinGroupResponse
-import retrofit2.Call
 import retrofit2.Response
 import kotlin.math.min
 
@@ -70,21 +68,8 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
         RetrofitClient.apiService.getUserGroups(request)
             .enqueue(object : BaseCallback<GetUserGroupsResponse>(this) {
-                override fun onResponse(
-                    call: Call<GetUserGroupsResponse>, response: Response<GetUserGroupsResponse>
-                ) {
-
-                    if (response.isSuccessful) {
-                        displayGroups(response.body()?.groups ?: emptyList(), username)
-                    } else {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Failed to get user groups",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("API_ERROR", "Error: ${response.code()}")
-                    }
-
+                override fun handleSuccess(response: Response<GetUserGroupsResponse>) {
+                    displayGroups(response.body()?.groups ?: emptyList(), username)
                 }
             })
     }
@@ -97,26 +82,9 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
         RetrofitClient.apiService.createGroup(request)
             .enqueue(object : BaseCallback<CreateGroupResponse>(this) {
-                override fun onResponse(
-                    call: Call<CreateGroupResponse>, response: Response<CreateGroupResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Creating group $newGroupName",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tryGetUserGroups(username)
-                    } else {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Failed to create group",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("API_ERROR", "Error: ${response.code()}")
-                    }
+                override fun handleSuccess(response: Response<CreateGroupResponse>) {
+                    tryGetUserGroups(username)
                 }
-
             })
     }
 
@@ -128,17 +96,8 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
         RetrofitClient.apiService.joinGroup(request)
             .enqueue(object : BaseCallback<JoinGroupResponse>(this) {
-                override fun onResponse(
-                    call: Call<JoinGroupResponse>, response: Response<JoinGroupResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        tryGetUserGroups(username)
-                    } else {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity, "Failed to join group", Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("API_ERROR", "Error: ${response.code()}")
-                    }
+                override fun handleSuccess(response: Response<JoinGroupResponse>) {
+                    tryGetUserGroups(username)
                 }
             })
     }
@@ -151,24 +110,13 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
         RetrofitClient.apiService.deleteGroup(request)
             .enqueue(object : BaseCallback<DeleteGroupResponse>(this) {
-                override fun onResponse(
-                    call: Call<DeleteGroupResponse>, response: Response<DeleteGroupResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Deleting group $groupToDelete",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tryGetUserGroups(username) // show the updated group list
-                    } else {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Failed to delete group",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("API_ERROR", "Error: ${response.code()}")
-                    }
+                override fun handleSuccess(response: Response<DeleteGroupResponse>) {
+                    Toast.makeText(
+                        this@GroupsOverviewActivity,
+                        "Deleted group $groupToDelete",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    tryGetUserGroups(username) // show the updated group list
                 }
             })
     }
