@@ -28,41 +28,13 @@ class GroupDetailsActivity : AppCompatActivity() {
         }
 
 
-        var username = intent.getStringExtra("username")
-        var group_name = intent.getStringExtra("group_name")
-        var creator = intent.getStringExtra("creator")
-        var members = intent.getStringArrayListExtra("members") // TODO: THIS SHOWS OUTDATED DATA
+        // HACK: this will crash if the any of the extras are null (not found)
+        var username: String = intent.getStringExtra("username")!!
+        var group_name: String = intent.getStringExtra("group_name")!!
+        var creator: String = intent.getStringExtra("creator")!!
+        // TODO: THIS SHOWS OUTDATED DATA
+        var members: List<String> = intent.getStringArrayListExtra("members")!!
 
-        if (username == null) {
-            Toast.makeText(this, "No username provided", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@GroupDetailsActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-            username = "this will never happen"
-        }
-        if (group_name == null) {
-            Toast.makeText(this, "No group_name provided", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@GroupDetailsActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-            group_name = "this will never happen"
-        }
-
-        if (creator == null) {
-            Toast.makeText(this, "No creator provided", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@GroupDetailsActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-            creator = "this will never happen"
-        }
-
-        if (members == null) {
-            Toast.makeText(this, "No members provided", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@GroupDetailsActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-            members = arrayListOf("this will never happen")
-        }
 
         val groupNameTextView = findViewById<TextView>(R.id.group_name_text_view)
         groupNameTextView.text = group_name
