@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
         val loginButton = findViewById<Button>(R.id.login_button)
         loginButton.setOnClickListener {
             tryLogin()
@@ -59,27 +58,13 @@ class MainActivity : AppCompatActivity() {
 
         val request = LoginRequest(username = usernameEditText.text.toString())
 
-        RetrofitClient.apiService.login(request).enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if (response.isSuccessful) {
-                    // Login successful, handle the response, move to the next activity
+        RetrofitClient.apiService.login(request)
+            .enqueue(object : BaseCallback<LoginResponse>(this) {
+                override fun handleSuccess(response: Response<LoginResponse>) {
                     val intent = Intent(this@MainActivity, GroupsOverviewActivity::class.java)
                     intent.putExtra("username", response.body()?.username)
                     startActivity(intent)
-                    finish() // This makes it so that the user can't go back to the login screen
-                } else {
-                    Toast.makeText(this@MainActivity, "Login failed", Toast.LENGTH_SHORT).show()
-                    Log.e("API_ERROR", "Error: ${response.code()}")
                 }
-            }
-
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(this@MainActivity, "Failed to send/receive data", Toast.LENGTH_SHORT)
-                    .show()
-                Log.e("API_FAILURE", "Request failed", t)
-            }
-        })
-
-
+            })
     }
 }
