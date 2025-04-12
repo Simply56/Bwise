@@ -22,12 +22,7 @@ import com.example.bwise.DataClasses.Group
 import com.example.bwise.DataClasses.JoinGroupRequest
 import com.example.bwise.DataClasses.JoinGroupResponse
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
 import kotlin.math.min
 
 class GroupsOverviewActivity : AppCompatActivity() {
@@ -61,11 +56,11 @@ class GroupsOverviewActivity : AppCompatActivity() {
         joinGroupButton.setOnClickListener {
             tryJoinGroup(username, groupNameInput.text.toString())
         }
-
         deleteGroupButton.setOnClickListener {
             tryDeleteGroup(username, groupNameInput.text.toString())
         }
     }
+
     /**
      * Gets the user's groups from the API and displays them in the UI.
      */
@@ -74,10 +69,11 @@ class GroupsOverviewActivity : AppCompatActivity() {
         val request = GetUserGroupsRequest(username = username)
 
         RetrofitClient.apiService.getUserGroups(request)
-            .enqueue(object : Callback<GetUserGroupsResponse> {
+            .enqueue(object : BaseCallback<GetUserGroupsResponse>(this) {
                 override fun onResponse(
                     call: Call<GetUserGroupsResponse>, response: Response<GetUserGroupsResponse>
                 ) {
+
                     if (response.isSuccessful) {
                         displayGroups(response.body()?.groups ?: emptyList(), username)
                     } else {
@@ -88,15 +84,91 @@ class GroupsOverviewActivity : AppCompatActivity() {
                         ).show()
                         Log.e("API_ERROR", "Error: ${response.code()}")
                     }
+
+                }
+            })
+    }
+
+
+    private fun tryCreateGroup(username: String, newGroupName: String) {
+        val request = CreateGroupRequest(
+            group_name = newGroupName, username = username
+        )
+
+        RetrofitClient.apiService.createGroup(request)
+            .enqueue(object : BaseCallback<CreateGroupResponse>(this) {
+                override fun onResponse(
+                    call: Call<CreateGroupResponse>, response: Response<CreateGroupResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity,
+                            "Creating group $newGroupName",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        tryGetUserGroups(username)
+                    } else {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity,
+                            "Failed to create group",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("API_ERROR", "Error: ${response.code()}")
+                    }
                 }
 
-                override fun onFailure(call: Call<GetUserGroupsResponse>, t: Throwable) {
-                    Toast.makeText(
-                        this@GroupsOverviewActivity,
-                        "Failed to send/receive data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e("API_FAILURE", "Request failed", t)
+            })
+    }
+
+
+    private fun tryJoinGroup(username: String, newGroupName: String) {
+        val request = JoinGroupRequest(
+            group_name = newGroupName, username = username
+        )
+
+        RetrofitClient.apiService.joinGroup(request)
+            .enqueue(object : BaseCallback<JoinGroupResponse>(this) {
+                override fun onResponse(
+                    call: Call<JoinGroupResponse>, response: Response<JoinGroupResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        tryGetUserGroups(username)
+                    } else {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity, "Failed to join group", Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("API_ERROR", "Error: ${response.code()}")
+                    }
+                }
+            })
+    }
+
+
+    private fun tryDeleteGroup(username: String, groupToDelete: String) {
+        val request = DeleteGroupRequest(
+            group_name = groupToDelete, username = username
+        )
+
+        RetrofitClient.apiService.deleteGroup(request)
+            .enqueue(object : BaseCallback<DeleteGroupResponse>(this) {
+                override fun onResponse(
+                    call: Call<DeleteGroupResponse>, response: Response<DeleteGroupResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity,
+                            "Deleting group $groupToDelete",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        tryGetUserGroups(username) // show the updated group list
+                    } else {
+                        Toast.makeText(
+                            this@GroupsOverviewActivity,
+                            "Failed to delete group",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("API_ERROR", "Error: ${response.code()}")
+                    }
                 }
             })
     }
@@ -132,118 +204,5 @@ class GroupsOverviewActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-
-    private fun tryCreateGroup(username: String, newGroupName: String) {
-        val request = CreateGroupRequest(
-            group_name = newGroupName, username = username
-        )
-
-        RetrofitClient.apiService.createGroup(request)
-            .enqueue(object : Callback<CreateGroupResponse> {
-                override fun onResponse(
-                    call: Call<CreateGroupResponse>, response: Response<CreateGroupResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Creating group $newGroupName",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tryGetUserGroups(username)
-                    } else {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Failed to create group",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("API_ERROR", "Error: ${response.code()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<CreateGroupResponse>, t: Throwable) {
-                    Toast.makeText(
-                        this@GroupsOverviewActivity,
-                        "Failed to send/receive data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e("API_FAILURE", "Request failed", t)
-                }
-            })
-    }
-
-
-
-    private fun tryJoinGroup(username: String, newGroupName: String) {
-        val request = JoinGroupRequest(
-            group_name = newGroupName, username = username
-        )
-
-        RetrofitClient.apiService.joinGroup(request)
-            .enqueue(object : Callback<JoinGroupResponse> {
-                override fun onResponse(
-                    call: Call<JoinGroupResponse>, response: Response<JoinGroupResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        tryGetUserGroups(username)
-                    } else {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Failed to join group",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("API_ERROR", "Error: ${response.code()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<JoinGroupResponse>, t: Throwable) {
-                    Toast.makeText(
-                        this@GroupsOverviewActivity,
-                        "Failed to send/receive data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e("API_FAILURE", "Request failed", t)
-                }
-            })
-    }
-
-
-    private fun tryDeleteGroup(username: String, groupToDelete: String) {
-        val request = DeleteGroupRequest(
-            group_name = groupToDelete, username = username
-        )
-
-        RetrofitClient.apiService.deleteGroup(request)
-            .enqueue(object : Callback<DeleteGroupResponse> {
-                override fun onResponse(
-                    call: Call<DeleteGroupResponse>, response: Response<DeleteGroupResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Deleting group $groupToDelete",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tryGetUserGroups(username) // show the updated group list
-                    } else {
-                        Toast.makeText(
-                            this@GroupsOverviewActivity,
-                            "Failed to delete group",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("API_ERROR", "Error: ${response.code()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<DeleteGroupResponse>, t: Throwable) {
-                    Toast.makeText(
-                        this@GroupsOverviewActivity,
-                        "Failed to send/receive data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.e("API_FAILURE", "Request failed", t)
-                }
-            })
     }
 }

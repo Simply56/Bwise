@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.bwise.DataClasses.LoginRequest
 import com.example.bwise.DataClasses.LoginResponse
+import retrofit2.Call
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +39,10 @@ class MainActivity : AppCompatActivity() {
 
         RetrofitClient.apiService.login(request)
             .enqueue(object : BaseCallback<LoginResponse>(this) {
-                override fun handleSuccess(response: Response<LoginResponse>) {
+                override fun onResponse(
+                    call: Call<LoginResponse?>,
+                    response: Response<LoginResponse?>
+                ) {
                     val intent = Intent(this@MainActivity, GroupsOverviewActivity::class.java)
                     intent.putExtra("username", response.body()?.username)
                     startActivity(intent)

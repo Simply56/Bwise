@@ -119,15 +119,6 @@ class GroupDetailsActivity : AppCompatActivity() {
                 val memberTextView = childRow.getChildAt(0) as TextView
                 memberTextView.text = members[i]
                 childRow.setOnClickListener {
-
-//                    val intent =
-//                        Intent(this, GroupDetailsActivity::class.java)
-//                    intent.putExtra("username", username)
-//                    intent.putExtra("group_name", members[i].name)
-//                    intent.putExtra("creator", members[i].creator)
-//                    intent.putStringArrayListExtra("members", ArrayList(members[i].members))
-//                    startActivity(intent)
-
                     Toast.makeText(this, "Member clicked: ${members[i]}", Toast.LENGTH_SHORT)
                         .show()
                 }
