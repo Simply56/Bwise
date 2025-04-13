@@ -62,7 +62,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
      * Gets the user's groups from the API and displays them in the UI.
      */
     private fun tryGetUserGroups(username: String) {
-        val request = GetUserGroupsRequest(username = username)
+        val request = GetUserGroupsRequest(username)
 
         RetrofitClient.apiService.getUserGroups(request)
             .enqueue(object : BaseCallback<GetUserGroupsResponse>(this) {
@@ -74,9 +74,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
 
     private fun tryCreateGroup(username: String, newGroupName: String) {
-        val request = CreateGroupRequest(
-            group_name = newGroupName, username = username
-        )
+        val request = CreateGroupRequest(username, newGroupName)
 
         RetrofitClient.apiService.createGroup(request)
             .enqueue(object : BaseCallback<CreateGroupResponse>(this) {
@@ -88,9 +86,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
 
     private fun tryJoinGroup(username: String, newGroupName: String) {
-        val request = JoinGroupRequest(
-            group_name = newGroupName, username = username
-        )
+        val request = JoinGroupRequest(username, newGroupName)
 
         RetrofitClient.apiService.joinGroup(request)
             .enqueue(object : BaseCallback<JoinGroupResponse>(this) {
@@ -102,18 +98,11 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
 
     private fun tryDeleteGroup(username: String, groupToDelete: String) {
-        val request = DeleteGroupRequest(
-            group_name = groupToDelete, username = username
-        )
+        val request = DeleteGroupRequest(groupToDelete, username)
 
         RetrofitClient.apiService.deleteGroup(request)
             .enqueue(object : BaseCallback<DeleteGroupResponse>(this) {
                 override fun handleSuccess(response: Response<DeleteGroupResponse>) {
-                    Toast.makeText(
-                        this@GroupsOverviewActivity,
-                        "Deleted group $groupToDelete",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     tryGetUserGroups(username) // show the updated group list
                 }
             })
@@ -137,16 +126,12 @@ class GroupsOverviewActivity : AppCompatActivity() {
             }
             childView.text = groups[i].name
             childView.setOnClickListener {
-
                 val intent =
                     Intent(this@GroupsOverviewActivity, GroupDetailsActivity::class.java)
                 intent.putExtra("username", username)
                 intent.putExtra("group_name", groups[i].name)
                 intent.putExtra("creator", groups[i].creator)
                 startActivity(intent)
-
-                Toast.makeText(this, "Group clicked: ${groups[i].name}", Toast.LENGTH_SHORT)
-                    .show()
             }
         }
     }

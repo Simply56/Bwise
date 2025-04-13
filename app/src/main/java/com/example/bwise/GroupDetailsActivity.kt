@@ -124,7 +124,13 @@ class GroupDetailsActivity : AppCompatActivity() {
                 continue
             }
             childRow.setOnClickListener {
-                Toast.makeText(this, "Member clicked: ${members[i]}", Toast.LENGTH_SHORT)
+
+                AlertDialog.Builder(this)
+                    .setTitle("Settle debts with ${members[i]}?")
+                    .setPositiveButton("Confirm") { _, _ ->
+                        // TODO: ADD API CALL TO SETTLE DEBT
+                    }
+                    .setNegativeButton("Cancel", null)
                     .show()
             }
 
@@ -150,7 +156,7 @@ class GroupDetailsActivity : AppCompatActivity() {
      * Gets the user's groups from the API and displays them in the UI.
      */
     private fun tryGetUserGroups(username: String) {
-        val request = GetUserGroupsRequest(username = username)
+        val request = GetUserGroupsRequest(username)
 
         RetrofitClient.apiService.getUserGroups(request)
             .enqueue(object : BaseCallback<GetUserGroupsResponse>(this) {
@@ -168,31 +174,23 @@ class GroupDetailsActivity : AppCompatActivity() {
     }
 
     private fun tryAddExpense(username: String, group_name: String, amount: Double) {
-        val request = AddExpenseRequest(
-            username = username,
-            group_name = group_name,
-            amount = amount
-        )
+        val request = AddExpenseRequest(username, group_name, amount)
+
         RetrofitClient.apiService.addExpense(request)
             .enqueue(object : BaseCallback<AddExpenseResponse>
                 (this) {
                 override fun handleSuccess(response: Response<AddExpenseResponse>) {
-                    super.handleSuccess(response)
                     tryGetDebts(username, group_name)
                 }
             })
     }
 
     private fun tryGetDebts(username: String, group_name: String) {
-        var request = GetDebtsRequest(
-            username = username,
-            group_name = group_name
-        )
+        var request = GetDebtsRequest(username, group_name)
 
         RetrofitClient.apiService.getDebts(request)
             .enqueue(object : BaseCallback<GetDebtsResponse>(this) {
                 override fun handleSuccess(response: Response<GetDebtsResponse>) {
-                    super.handleSuccess(response)
                     debts = response.body()?.debts ?: emptyList()
                     populateMemberRows()
                 }
