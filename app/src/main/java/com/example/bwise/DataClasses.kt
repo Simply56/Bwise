@@ -13,7 +13,7 @@ class DataClasses {
     data class Transaction(
         val from_user: String,
         val to_user: String,
-        val amount: Int,
+        val amount: Double,
     )
 
     data class Debt(

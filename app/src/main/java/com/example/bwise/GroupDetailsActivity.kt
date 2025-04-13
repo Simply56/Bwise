@@ -1,6 +1,7 @@
 package com.example.bwise
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.widget.Button
@@ -13,6 +14,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.bwise.DataClasses.AddExpenseRequest
+import com.example.bwise.DataClasses.AddExpenseResponse
+import com.example.bwise.DataClasses.Debt
+import com.example.bwise.DataClasses.GetDebtsRequest
+import com.example.bwise.DataClasses.GetDebtsResponse
 import com.example.bwise.DataClasses.GetUserGroupsRequest
 import com.example.bwise.DataClasses.GetUserGroupsResponse
 import retrofit2.Response
@@ -24,6 +30,7 @@ class GroupDetailsActivity : AppCompatActivity() {
     var group_name: String = ""
     var creator: String = ""
     var members: List<String> = emptyList()
+    var debts: List<Debt> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +51,6 @@ class GroupDetailsActivity : AppCompatActivity() {
 
         val groupNameTextView = findViewById<TextView>(R.id.group_name_text_view)
         groupNameTextView.text = group_name
-
-        populateMembers(members.toList())
 
         val addExpenseButton = findViewById<Button>(R.id.add_expense_button)
         val kickUserButton = findViewById<Button>(R.id.kick_user_button)
@@ -93,33 +98,52 @@ class GroupDetailsActivity : AppCompatActivity() {
         super.onResume()
         // refresh the members list each time the activity is resumed
         tryGetUserGroups(username)
+        tryGetDebts(username, group_name)
+        populateMemberRows()
     }
 
-
-    private fun populateMembers(members: List<String>) {
+    private fun populateMemberRows() {
         val membersTableLayout = findViewById<TableLayout>(R.id.members_table_layout)
 
-        // clears text in each group member
+
+        // clear text from all member text views
         for (i in 0 until membersTableLayout.childCount) {
             if (membersTableLayout.getChildAt(i) !is TableRow) {
                 continue
             }
             val childRow = membersTableLayout.getChildAt(i) as TableRow
+
             val memberTextView = childRow.getChildAt(0) as TextView
+            val debtTextView = childRow.getChildAt(1) as TextView
             memberTextView.text = ""
+            debtTextView.text = ""
         }
 
-
-        // adds the correct name to each member
+        // adds the correct name to each member and their relative debt
         for (i in 0 until min(membersTableLayout.childCount, members.size)) {
             val childRow = membersTableLayout.getChildAt(i)
-            if (childRow is TableRow) {
-                val memberTextView = childRow.getChildAt(0) as TextView
-                memberTextView.text = members[i]
-                childRow.setOnClickListener {
-                    Toast.makeText(this, "Member clicked: ${members[i]}", Toast.LENGTH_SHORT)
-                        .show()
+            if (childRow !is TableRow) {
+                continue
+            }
+            childRow.setOnClickListener {
+                Toast.makeText(this, "Member clicked: ${members[i]}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            val memberTextView = childRow.getChildAt(0) as TextView
+            memberTextView.text = members[i]
+
+            val debtTextView = childRow.getChildAt(1) as TextView
+            for (d in debts) {
+                if (d.username != members[i]) {
+                    continue
                 }
+                debtTextView.text = String.format("%.2f", d.amount)
+                when (d.status) {
+                    "owes you" -> debtTextView.setTextColor(Color.GREEN)
+                    "you owe" -> debtTextView.setTextColor(Color.RED)
+                }
+                break
             }
         }
     }
@@ -137,12 +161,45 @@ class GroupDetailsActivity : AppCompatActivity() {
                     for (group in response.body()?.groups ?: emptyList()) {
                         if (group.name == group_name) {
                             members = group.members
-                            populateMembers(group.members)
                             break
                         }
                     }
                 }
 
+            })
+    }
+
+    private fun tryAddExpense(username: String, group_name: String, amount: Double) {
+        // TODO: NOT IMPLEMENTED
+        val request = AddExpenseRequest(
+            username = username,
+            group_name = group_name,
+            amount = amount
+        )
+        RetrofitClient.apiService.addExpense(request)
+            .enqueue(object : BaseCallback<AddExpenseResponse>
+                (this) {
+                override fun handleSuccess(response: Response<AddExpenseResponse>) {
+                    super.handleSuccess(response)
+                    tryGetDebts(username, group_name)
+                }
+
+            })
+    }
+
+    private fun tryGetDebts(username: String, group_name: String) {
+        var request = GetDebtsRequest(
+            username = username,
+            group_name = group_name
+        )
+
+        RetrofitClient.apiService.getDebts(request)
+            .enqueue(object : BaseCallback<GetDebtsResponse>(this) {
+                override fun handleSuccess(response: Response<GetDebtsResponse>) {
+                    super.handleSuccess(response)
+                    debts = response.body()?.debts ?: emptyList()
+                    populateMemberRows()
+                }
             })
     }
 }
