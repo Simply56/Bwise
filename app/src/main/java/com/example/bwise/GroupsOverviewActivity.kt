@@ -35,10 +35,6 @@ class GroupsOverviewActivity : AppCompatActivity() {
             insets
         }
 
-        // HACK: this will crash if the username is null (not found)
-        username = intent.getStringExtra("username")!!
-
-
         val createGroupButton = findViewById<Button>(R.id.create_group_button)
         val joinGroupButton = findViewById<Button>(R.id.join_group_button)
         val deleteGroupButton = findViewById<Button>(R.id.delete_group_button)
@@ -57,6 +53,8 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // HACK: this will crash if the username is null (not found)
+        username = intent.getStringExtra("username")!!
         tryGetUserGroups(username)
     }
 

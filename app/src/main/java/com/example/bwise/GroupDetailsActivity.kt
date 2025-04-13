@@ -57,19 +57,17 @@ class GroupDetailsActivity : AppCompatActivity() {
 
         addExpenseButton.setOnClickListener {
             val input = EditText(this)
-            input.inputType = InputType.TYPE_CLASS_NUMBER  // Positive numeric-only input
+            // allows decimals on a number only keyboard
+            input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
 
             AlertDialog.Builder(this)
                 .setTitle("Enter a number")
                 .setView(input)
                 .setPositiveButton("OK") { _, _ ->
                     val numberText = input.text.toString()
-                    val number = numberText.toIntOrNull()
+                    val number = numberText.toDoubleOrNull()
                     if (number != null) {
-                        // TODO: ADD API CALL
-                        // ✅ Use your number here
-                        Toast.makeText(this, "You entered: $number", Toast.LENGTH_SHORT).show()
-                        // store it, use it, pass to a function etc.
+                        tryAddExpense(username, group_name, number)
                     } else {
                         Toast.makeText(this, "Invalid number!", Toast.LENGTH_SHORT).show()
                     }
@@ -170,7 +168,6 @@ class GroupDetailsActivity : AppCompatActivity() {
     }
 
     private fun tryAddExpense(username: String, group_name: String, amount: Double) {
-        // TODO: NOT IMPLEMENTED
         val request = AddExpenseRequest(
             username = username,
             group_name = group_name,
@@ -183,7 +180,6 @@ class GroupDetailsActivity : AppCompatActivity() {
                     super.handleSuccess(response)
                     tryGetDebts(username, group_name)
                 }
-
             })
     }
 
