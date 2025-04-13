@@ -58,24 +58,37 @@ class DataClasses {
         val group_name: String
     )
 
+    data class SettleUpRequest(
+        val username: String,
+        val group_name: String,
+        val to_user: String
+    )
+
     // =========== Responses ============
+
+
     data class GetUserGroupsResponse(
+        val message: String,
         val groups: List<Group>
     )
 
     data class CreateGroupResponse(
+        val message: String,
         val group: Group,
     )
 
     data class JoinGroupResponse(
+        val message: String,
         val group: Group,
     )
 
     data class DeleteGroupResponse(
+        val message: String,
         val error: String
     )
 
     data class LoginResponse(
+        val message: String,
         val username: String,
     )
 
@@ -87,8 +100,15 @@ class DataClasses {
     )
 
     data class GetDebtsResponse(
+        val message: String,
         val username: String,
         val group_name: String,
         val debts: List<Debt>
+    )
+
+    data class SettleUpResponse(
+        val message: String,
+        val group: Group,
+        val transactions_settled: Int // number of settled transactions
     )
 }
