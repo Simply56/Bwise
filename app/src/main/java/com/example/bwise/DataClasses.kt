@@ -16,6 +16,12 @@ class DataClasses {
         val amount: Int,
     )
 
+    data class Debt(
+        val username: String,
+        val amount: Double,
+        val status: String
+    )
+
     //============== Requests ================
     data class LoginRequest(
         val username: String,
@@ -26,20 +32,31 @@ class DataClasses {
     )
 
     data class CreateGroupRequest(
-        val group_name: String,
         val username: String,
+        val group_name: String,
     )
 
     data class JoinGroupRequest(
-        val group_name: String,
         val username: String,
+        val group_name: String,
     )
 
     data class DeleteGroupRequest(
-        val group_name: String,
         val username: String,
+        val group_name: String,
     )
 
+
+    data class AddExpenseRequest(
+        val username: String,
+        val group_name: String,
+        val amount: Double,
+    )
+
+    data class GetDebtsRequest(
+        val username: String,
+        val group_name: String
+    )
 
     // =========== Responses ============
     data class GetUserGroupsResponse(
@@ -60,5 +77,18 @@ class DataClasses {
 
     data class LoginResponse(
         val username: String,
+    )
+
+    data class AddExpenseResponse(
+        val message: String,
+        val amount: Double,
+        val share_per_member: Double,
+        val group: Group
+    )
+
+    data class GetDebtsResponse(
+        val username: String,
+        val group_name: String,
+        val debts: List<Debt>
     )
 }
