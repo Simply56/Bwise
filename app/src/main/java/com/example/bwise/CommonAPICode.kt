@@ -28,6 +28,12 @@ interface ApiService {
 
     @POST("/delete_group")
     fun deleteGroup(@Body request: DeleteGroupRequest): Call<DeleteGroupResponse>
+
+    @POST("/add_expense")
+    fun addExpense(@Body request: AddExpenseRequest): Call<AddExpenseResponse>
+
+    @POST("/get_debts")
+    fun getDebts(@Body request: GetDebtsRequest): Call<GetDebtsResponse>
 }
 
 object RetrofitClient {
@@ -48,7 +54,7 @@ abstract class BaseCallback<T>(private val context: Context) : Callback<T> {
 
 
     /**
-     * API call got response
+     * Called if API call got response
      */
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.isSuccessful) {
@@ -59,21 +65,21 @@ abstract class BaseCallback<T>(private val context: Context) : Callback<T> {
     }
 
     /**
-     * API call got response and it was successful
+     * Called if API call got response and it was successful
      */
     open fun handleSuccess(response: Response<T>) {
         Toast.makeText(context, "Success: ${response.code()}", Toast.LENGTH_SHORT).show()
     }
 
     /**
-     * API call got response but it was **not** successful
+     * Called if API call got response but it was **not** successful
      */
     open fun handleFailure(response: Response<T>) {
         Toast.makeText(context, "Failure: ${response.code()}", Toast.LENGTH_SHORT).show()
     }
 
     /**
-     * API call failed
+     * Called if API call failed
      */
     override fun onFailure(call: Call<T>, t: Throwable) {
         Toast.makeText(context, "Failed to send/receive data", Toast.LENGTH_SHORT).show()
