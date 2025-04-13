@@ -24,6 +24,7 @@ import retrofit2.Response
 import kotlin.math.min
 
 class GroupsOverviewActivity : AppCompatActivity() {
+    var username: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,8 +36,9 @@ class GroupsOverviewActivity : AppCompatActivity() {
         }
 
         // HACK: this will crash if the username is null (not found)
-        var username = intent.getStringExtra("username")!!
-        tryGetUserGroups(username)
+        username = intent.getStringExtra("username")!!
+
+
         val createGroupButton = findViewById<Button>(R.id.create_group_button)
         val joinGroupButton = findViewById<Button>(R.id.join_group_button)
         val deleteGroupButton = findViewById<Button>(R.id.delete_group_button)
@@ -51,6 +53,11 @@ class GroupsOverviewActivity : AppCompatActivity() {
         deleteGroupButton.setOnClickListener {
             tryDeleteGroup(username, groupNameInput.text.toString())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        tryGetUserGroups(username)
     }
 
     /**
