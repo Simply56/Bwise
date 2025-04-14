@@ -66,49 +66,49 @@ class DataClasses {
 
     // =========== Responses ============
 
+    open class BaseResponse(message: String)
 
-    data class GetUserGroupsResponse(
-        val message: String,
+    class GetUserGroupsResponse(
+        message: String,
         val groups: List<Group>
-    )
+    ) : BaseResponse(message)
 
-    data class CreateGroupResponse(
-        val message: String,
+    class CreateGroupResponse(
+        message: String,
         val group: Group,
-    )
+    ) : BaseResponse(message)
 
-    data class JoinGroupResponse(
-        val message: String,
+    class JoinGroupResponse(
+        message: String,
         val group: Group,
-    )
+    ) : BaseResponse(message)
 
-    data class DeleteGroupResponse(
-        val message: String,
-        val error: String
-    )
+    class DeleteGroupResponse(
+        message: String,
+    ) : BaseResponse(message)
 
-    data class LoginResponse(
-        val message: String,
+    class LoginResponse(
+        message: String,
         val username: String,
-    )
+    ) : BaseResponse(message)
 
-    data class AddExpenseResponse(
-        val message: String,
+    class AddExpenseResponse(
+        message: String,
         val amount: Double,
         val share_per_member: Double,
-        val group: Group
-    )
+        val group: Group,
+    ) : BaseResponse(message)
 
-    data class GetDebtsResponse(
-        val message: String,
+    class GetDebtsResponse(
+        message: String,
         val username: String,
         val group_name: String,
         val debts: List<Debt>
-    )
+    ) : BaseResponse(message)
 
-    data class SettleUpResponse(
-        val message: String,
+    class SettleUpResponse(
+        message: String,
         val group: Group,
-        val transactions_settled: Int // number of settled transactions
-    )
+        val transactions_settled: Int
+    ) : BaseResponse(message)
 }
