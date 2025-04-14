@@ -86,7 +86,6 @@ class GroupDetailsActivity : AppCompatActivity() {
                     val username = input.text.toString()
                     // TODO: ADD API CALL
                     // ✅ Use your username here
-                    Toast.makeText(this, "You entered: $username", Toast.LENGTH_SHORT).show()
                     // store it, use it, pass to a function etc.
                 }
                 .setNegativeButton("Cancel", null)

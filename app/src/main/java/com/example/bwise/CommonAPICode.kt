@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 import com.example.bwise.DataClasses.BaseResponse
+import com.google.gson.Gson
 
 
 interface ApiService {
@@ -81,15 +82,21 @@ abstract class BaseCallback<T : BaseResponse>(private val context: Context) : Ca
      * Called if API call got response but it was **not** successful
      */
     open fun handleFailure(response: Response<T>) {
-        val msg = "${response.code()}: ${response.body()?.message}"
-        Toast.makeText(
-            context,
-            msg,
-            Toast.LENGTH_LONG
-        ).show()
-        Log.e("API_FAILURE", msg)
-    }
+        val errorBody = response.errorBody()?.string()
+        var message = "Failure: ${response.code()}"
 
+        try {
+            val gson = Gson()
+            val errorMap = gson.fromJson(errorBody, Map::class.java)
+            if (errorMap != null && errorMap.containsKey("message")) {
+                message = errorMap["message"].toString()
+            }
+        } catch (e: Exception) {
+            Log.e("API_FAILURE", "Failed to parse error response", e)
+        }
+
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
     /**
      * Called if API call failed
      */
