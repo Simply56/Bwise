@@ -66,7 +66,7 @@ class DataClasses {
 
     // =========== Responses ============
 
-    open class BaseResponse(message: String)
+    open class BaseResponse(val message: String)
 
     class GetUserGroupsResponse(
         message: String,

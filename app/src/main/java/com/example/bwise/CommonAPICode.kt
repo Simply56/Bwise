@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import com.example.bwise.DataClasses.BaseResponse
 
 
 interface ApiService {
@@ -53,7 +54,7 @@ object RetrofitClient {
  * It provides default methods for handling successful and failed responses.
  * These methods can be overridden in subclasses to customize the behavior.
  */
-abstract class BaseCallback<T>(private val context: Context) : Callback<T> {
+abstract class BaseCallback<T : BaseResponse>(private val context: Context) : Callback<T> {
 
 
     /**
@@ -71,21 +72,29 @@ abstract class BaseCallback<T>(private val context: Context) : Callback<T> {
      * Called if API call got response and it was successful
      */
     open fun handleSuccess(response: Response<T>) {
-        Toast.makeText(context, "Success: ${response.code()}", Toast.LENGTH_SHORT).show()
+        val msg = response.body()?.message
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+        Log.i("API_SUCCESS", msg ?: "")
     }
 
     /**
      * Called if API call got response but it was **not** successful
      */
     open fun handleFailure(response: Response<T>) {
-        Toast.makeText(context, "Failure: ${response.code()}", Toast.LENGTH_SHORT).show()
+        val msg = "${response.code()}: ${response.body()?.message}"
+        Toast.makeText(
+            context,
+            msg,
+            Toast.LENGTH_LONG
+        ).show()
+        Log.e("API_FAILURE", msg)
     }
 
     /**
      * Called if API call failed
      */
     override fun onFailure(call: Call<T>, t: Throwable) {
-        Toast.makeText(context, "Failed to send/receive data", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed to send/receive data", Toast.LENGTH_LONG).show()
         Log.e("API_FAILURE", "Request failed", t)
     }
 
