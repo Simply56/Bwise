@@ -41,36 +41,38 @@
             android:stretchColumns="0"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TableRow>
+            <TableRow
+                android:layout_marginVertical="5dp">
 
                 <TextView
                     android:id="@+id/member_text_view_0"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_0"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow
+                android:layout_marginVertical="5dp">
 
                 <TextView
                     android:id="@+id/member_text_view_1"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_1"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -79,14 +81,14 @@
                     android:id="@+id/member_text_view_2"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_2"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -95,14 +97,14 @@
                     android:id="@+id/member_text_view_3"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_3"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -111,14 +113,14 @@
                     android:id="@+id/member_text_view_4"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_4"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -127,14 +129,14 @@
                     android:id="@+id/member_text_view_5"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_5"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -143,14 +145,14 @@
                     android:id="@+id/member_text_view_6"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_6"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -159,14 +161,14 @@
                     android:id="@+id/member_text_view_7"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_7"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -175,14 +177,14 @@
                     android:id="@+id/member_text_view_8"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_8"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -191,14 +193,14 @@
                     android:id="@+id/member_text_view_9"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_9"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -207,14 +209,14 @@
                     android:id="@+id/member_text_view_10"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_10"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -223,14 +225,14 @@
                     android:id="@+id/member_text_view_11"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_11"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -239,14 +241,14 @@
                     android:id="@+id/member_text_view_12"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_12"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -255,14 +257,14 @@
                     android:id="@+id/member_text_view_13"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_13"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -271,14 +273,14 @@
                     android:id="@+id/member_text_view_14"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_14"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -287,14 +289,14 @@
                     android:id="@+id/member_text_view_15"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_15"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -303,14 +305,14 @@
                     android:id="@+id/member_text_view_16"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_16"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -319,14 +321,14 @@
                     android:id="@+id/member_text_view_17"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_17"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -335,14 +337,14 @@
                     android:id="@+id/member_text_view_18"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_18"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -351,14 +353,14 @@
                     android:id="@+id/member_text_view_19"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_19"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <TableRow>
@@ -367,14 +369,14 @@
                     android:id="@+id/member_text_view_20"
                     android:padding="3dp"
                     android:text="member name"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/member_debt_text_view_20"
                     android:padding="3dp"
                     android:text="-20"
                     android:textAlignment="textEnd"
-                    android:textSize="22sp" />
+                    android:textSize="26sp" />
             </TableRow>
 
             <!-- More TextViews can be added dynamically in code -->
