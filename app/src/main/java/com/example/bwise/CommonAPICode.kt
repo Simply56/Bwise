@@ -34,6 +34,9 @@ interface ApiService {
 
     @POST("/get_debts")
     fun getDebts(@Body request: GetDebtsRequest): Call<GetDebtsResponse>
+
+    @POST("/settle_up")
+    fun settleUp(@Body request: SettleUpRequest): Call<SettleUpResponse>
 }
 
 object RetrofitClient {

@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -98,7 +97,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
 
 
     private fun tryDeleteGroup(username: String, groupToDelete: String) {
-        val request = DeleteGroupRequest(groupToDelete, username)
+        val request = DeleteGroupRequest(username = username, group_name = groupToDelete)
 
         RetrofitClient.apiService.deleteGroup(request)
             .enqueue(object : BaseCallback<DeleteGroupResponse>(this) {

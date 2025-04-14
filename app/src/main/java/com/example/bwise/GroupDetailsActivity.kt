@@ -21,6 +21,8 @@ import com.example.bwise.DataClasses.GetDebtsRequest
 import com.example.bwise.DataClasses.GetDebtsResponse
 import com.example.bwise.DataClasses.GetUserGroupsRequest
 import com.example.bwise.DataClasses.GetUserGroupsResponse
+import com.example.bwise.DataClasses.SettleUpRequest
+import com.example.bwise.DataClasses.SettleUpResponse
 import retrofit2.Response
 import kotlin.math.min
 
@@ -97,7 +99,6 @@ class GroupDetailsActivity : AppCompatActivity() {
         // refresh the members list each time the activity is resumed
         tryGetUserGroups(username)
         tryGetDebts(username, group_name)
-        populateMemberRows()
     }
 
     private fun populateMemberRows() {
@@ -124,11 +125,10 @@ class GroupDetailsActivity : AppCompatActivity() {
                 continue
             }
             childRow.setOnClickListener {
-
                 AlertDialog.Builder(this)
                     .setTitle("Settle debts with ${members[i]}?")
                     .setPositiveButton("Confirm") { _, _ ->
-                        // TODO: ADD API CALL TO SETTLE DEBT
+                        trySettleUp(username, group_name, members[i])
                     }
                     .setNegativeButton("Cancel", null)
                     .show()
@@ -137,6 +137,7 @@ class GroupDetailsActivity : AppCompatActivity() {
             val memberTextView = childRow.getChildAt(0) as TextView
             memberTextView.text = members[i]
 
+            // show the color debt rounded to 2 decimal places
             val debtTextView = childRow.getChildAt(1) as TextView
             for (d in debts) {
                 if (d.username != members[i]) {
@@ -169,7 +170,6 @@ class GroupDetailsActivity : AppCompatActivity() {
                         }
                     }
                 }
-
             })
     }
 
@@ -193,6 +193,18 @@ class GroupDetailsActivity : AppCompatActivity() {
                 override fun handleSuccess(response: Response<GetDebtsResponse>) {
                     debts = response.body()?.debts ?: emptyList()
                     populateMemberRows()
+                }
+            })
+    }
+
+    private fun trySettleUp(username: String, group_name: String, to_user: String) {
+        var request = SettleUpRequest(username, group_name, to_user)
+
+        RetrofitClient.apiService.settleUp(request)
+            .enqueue(object : BaseCallback<SettleUpResponse>(this) {
+                override fun handleSuccess(response: Response<SettleUpResponse>) {
+                    super.handleSuccess(response)
+                    tryGetDebts(username, group_name)
                 }
             })
     }
