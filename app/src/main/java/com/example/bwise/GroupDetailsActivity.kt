@@ -204,4 +204,8 @@ class GroupDetailsActivity : AppCompatActivity() {
                 }
             })
     }
+
+    private fun tryKickUser(username: String, group_name: String, target_username: String){
+
+    }
 }

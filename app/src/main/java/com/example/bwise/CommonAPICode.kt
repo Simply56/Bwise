@@ -39,6 +39,9 @@ interface ApiService {
 
     @POST("/settle_up")
     fun settleUp(@Body request: SettleUpRequest): Call<SettleUpResponse>
+
+    @POST("/kick_user")
+    fun kickUser(@Body request: KickUserRequest): Call<KickUserResponse>
 }
 
 object RetrofitClient {
@@ -89,7 +92,7 @@ abstract class BaseCallback<T : BaseResponse>(private val context: Context) : Ca
             val gson = Gson()
             val errorMap = gson.fromJson(errorBody, Map::class.java)
             if (errorMap != null && errorMap.containsKey("message")) {
-                message = errorMap["message"].toString()
+                message = "${response.code()}: ${errorMap["message"].toString()}"
             }
         } catch (e: Exception) {
             Log.e("API_FAILURE", "Failed to parse error response", e)

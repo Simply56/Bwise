@@ -64,6 +64,12 @@ class DataClasses {
         val to_user: String
     )
 
+    data class KickUserRequest(
+        val username: String,
+        val group_name: String,
+        val target_username: String
+    )
+
     // =========== Responses ============
 
     open class BaseResponse(val message: String)
@@ -110,5 +116,10 @@ class DataClasses {
         message: String,
         val group: Group,
         val transactions_settled: Int
+    ) : BaseResponse(message)
+
+    class KickUserResponse(
+        message: String,
+        val group: Group
     ) : BaseResponse(message)
 }
