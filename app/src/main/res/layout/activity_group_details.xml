@@ -11,11 +11,11 @@
     tools:context=".GroupDetailsActivity">
 
     <TextView
-        android:textAlignment="center"
         android:id="@+id/group_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Group name"
+        android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +41,7 @@
             android:stretchColumns="0"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TableRow
-                android:layout_marginVertical="5dp">
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_0"
@@ -58,8 +57,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow
-                android:layout_marginVertical="5dp">
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_1"
@@ -75,7 +73,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_2"
@@ -91,7 +89,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_3"
@@ -107,7 +105,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_4"
@@ -123,7 +121,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_5"
@@ -139,7 +137,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_6"
@@ -155,7 +153,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_7"
@@ -171,7 +169,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_8"
@@ -187,7 +185,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_9"
@@ -203,7 +201,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_10"
@@ -219,7 +217,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_11"
@@ -235,7 +233,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_12"
@@ -251,7 +249,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_13"
@@ -267,7 +265,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_14"
@@ -283,7 +281,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_15"
@@ -299,7 +297,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_16"
@@ -315,7 +313,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_17"
@@ -331,7 +329,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_18"
@@ -347,7 +345,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_19"
@@ -363,7 +361,7 @@
                     android:textSize="26sp" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/member_text_view_20"
@@ -385,21 +383,23 @@
 
     <Button
         android:id="@+id/add_expense_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Add expense"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.45" />
 
     <Button
         android:id="@+id/kick_user_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="kick user"
+        android:text="Kick user"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.45" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
