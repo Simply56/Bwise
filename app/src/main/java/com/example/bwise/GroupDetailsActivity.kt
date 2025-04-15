@@ -141,10 +141,18 @@ class GroupDetailsActivity : AppCompatActivity() {
                 if (debt.username != members[i]) {
                     continue
                 }
+                // don't show your own debt
+                if (debt.username == username) {
+                    debtTextView.text = ""
+                    continue
+                }
                 debtTextView.text = String.format("%.2f", debt.amount)
+
                 when (debt.status) {
                     "owes you" -> debtTextView.setTextColor(Color.GREEN)
                     "you owe" -> debtTextView.setTextColor(Color.RED)
+                    // this creates a temporary view and gets the default color from it
+                    else -> debtTextView.setTextColor(TextView(this).textColors)
                 }
                 break
             }
@@ -156,8 +164,7 @@ class GroupDetailsActivity : AppCompatActivity() {
         val request = AddExpenseRequest(username, group_name, amount)
 
         RetrofitClient.apiService.addExpense(request)
-            .enqueue(object : BaseCallback<AddExpenseResponse>
-                (this) {
+            .enqueue(object : BaseCallback<AddExpenseResponse>(this) {
                 override fun handleSuccess(response: Response<AddExpenseResponse>) {
                     tryGetDebts(username, group_name)
                 }
@@ -171,11 +178,14 @@ class GroupDetailsActivity : AppCompatActivity() {
             .enqueue(object : BaseCallback<GetDebtsResponse>(this) {
                 override fun handleSuccess(response: Response<GetDebtsResponse>) {
                     debts = response.body()?.debts ?: emptyList()
+
+                    // get the members from the debts
                     var currentMembers = ArrayList<String>()
                     for (debt in debts) {
                         currentMembers.add(debt.username)
                     }
                     members = currentMembers
+
                     populateMemberRows()
                 }
             })
