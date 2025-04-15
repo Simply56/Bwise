@@ -96,7 +96,6 @@ class GroupDetailsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // refresh the members list each time the activity is resumed
-        tryGetUserGroups(username)
         tryGetDebts(username, group_name)
     }
 
@@ -138,12 +137,12 @@ class GroupDetailsActivity : AppCompatActivity() {
 
             // show the color debt rounded to 2 decimal places
             val debtTextView = childRow.getChildAt(1) as TextView
-            for (d in debts) {
-                if (d.username != members[i]) {
+            for (debt in debts) {
+                if (debt.username != members[i]) {
                     continue
                 }
-                debtTextView.text = String.format("%.2f", d.amount)
-                when (d.status) {
+                debtTextView.text = String.format("%.2f", debt.amount)
+                when (debt.status) {
                     "owes you" -> debtTextView.setTextColor(Color.GREEN)
                     "you owe" -> debtTextView.setTextColor(Color.RED)
                 }
@@ -152,25 +151,6 @@ class GroupDetailsActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Gets the user's groups from the API and displays them in the UI.
-     */
-    private fun tryGetUserGroups(username: String) {
-        val request = GetUserGroupsRequest(username)
-
-        RetrofitClient.apiService.getUserGroups(request)
-            .enqueue(object : BaseCallback<GetUserGroupsResponse>(this) {
-                override fun handleSuccess(response: Response<GetUserGroupsResponse>) {
-                    // update members
-                    for (group in response.body()?.groups ?: emptyList()) {
-                        if (group.name == group_name) {
-                            members = group.members
-                            break
-                        }
-                    }
-                }
-            })
-    }
 
     private fun tryAddExpense(username: String, group_name: String, amount: Double) {
         val request = AddExpenseRequest(username, group_name, amount)
@@ -191,6 +171,11 @@ class GroupDetailsActivity : AppCompatActivity() {
             .enqueue(object : BaseCallback<GetDebtsResponse>(this) {
                 override fun handleSuccess(response: Response<GetDebtsResponse>) {
                     debts = response.body()?.debts ?: emptyList()
+                    var currentMembers = ArrayList<String>()
+                    for (debt in debts) {
+                        currentMembers.add(debt.username)
+                    }
+                    members = currentMembers
                     populateMemberRows()
                 }
             })
