@@ -57,6 +57,35 @@ class GroupsOverviewActivity : AppCompatActivity() {
         tryGetUserGroups(username)
     }
 
+
+    private fun populateGroupList(groups: List<Group>, username: String) {
+        val groupLinearLayout = findViewById<LinearLayout>(R.id.group_linear_layout)
+
+        // clear text from all group text views
+        for (i in 0 until groupLinearLayout.childCount) {
+            val childView = groupLinearLayout.getChildAt(i)
+            if (childView is TextView) {
+                childView.text = ""
+            }
+        }
+
+        for (i in 0 until min(groupLinearLayout.childCount, groups.size)) {
+            val childView = groupLinearLayout.getChildAt(i)
+            if (childView !is TextView) {
+                continue
+            }
+            childView.text = groups[i].name
+            childView.setOnClickListener {
+                val intent =
+                    Intent(this@GroupsOverviewActivity, GroupDetailsActivity::class.java)
+                intent.putExtra("username", username)
+                intent.putExtra("group_name", groups[i].name)
+                intent.putExtra("creator", groups[i].creator)
+                startActivity(intent)
+            }
+        }
+    }
+
     /**
      * Gets the user's groups from the API and displays them in the UI.
      */
@@ -66,7 +95,7 @@ class GroupsOverviewActivity : AppCompatActivity() {
         RetrofitClient.apiService.getUserGroups(request)
             .enqueue(object : BaseCallback<GetUserGroupsResponse>(this) {
                 override fun handleSuccess(response: Response<GetUserGroupsResponse>) {
-                    displayGroups(response.body()?.groups ?: emptyList(), username)
+                    populateGroupList(response.body()?.groups ?: emptyList(), username)
                 }
             })
     }
@@ -107,31 +136,4 @@ class GroupsOverviewActivity : AppCompatActivity() {
             })
     }
 
-    private fun displayGroups(groups: List<Group>, username: String) {
-        val groupLinearLayout = findViewById<LinearLayout>(R.id.group_linear_layout)
-
-        // clear text from all group text views
-        for (i in 0 until groupLinearLayout.childCount) {
-            val childView = groupLinearLayout.getChildAt(i)
-            if (childView is TextView) {
-                childView.text = ""
-            }
-        }
-
-        for (i in 0 until min(groupLinearLayout.childCount, groups.size)) {
-            val childView = groupLinearLayout.getChildAt(i)
-            if (childView !is TextView) {
-                continue
-            }
-            childView.text = groups[i].name
-            childView.setOnClickListener {
-                val intent =
-                    Intent(this@GroupsOverviewActivity, GroupDetailsActivity::class.java)
-                intent.putExtra("username", username)
-                intent.putExtra("group_name", groups[i].name)
-                intent.putExtra("creator", groups[i].creator)
-                startActivity(intent)
-            }
-        }
-    }
 }
