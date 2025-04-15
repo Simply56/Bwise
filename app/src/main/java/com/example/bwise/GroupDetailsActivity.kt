@@ -19,6 +19,8 @@ import com.example.bwise.DataClasses.AddExpenseResponse
 import com.example.bwise.DataClasses.Debt
 import com.example.bwise.DataClasses.GetDebtsRequest
 import com.example.bwise.DataClasses.GetDebtsResponse
+import com.example.bwise.DataClasses.KickUserRequest
+import com.example.bwise.DataClasses.KickUserResponse
 import com.example.bwise.DataClasses.SettleUpRequest
 import com.example.bwise.DataClasses.SettleUpResponse
 import retrofit2.Response
@@ -81,10 +83,8 @@ class GroupDetailsActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("Enter a username")
                 .setView(input).setPositiveButton("OK") { _, _ ->
-                    val username = input.text.toString()
-                    // TODO: ADD API CALL
-                    // ✅ Use your username here
-                    // store it, use it, pass to a function etc.
+                    val target_username = input.text.toString()
+                    tryKickUser(username, group_name, target_username)
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
@@ -205,7 +205,15 @@ class GroupDetailsActivity : AppCompatActivity() {
             })
     }
 
-    private fun tryKickUser(username: String, group_name: String, target_username: String){
+    private fun tryKickUser(username: String, group_name: String, target_username: String) {
+        var request = KickUserRequest(username, group_name, target_username)
 
+        RetrofitClient.apiService.kickUser(request)
+            .enqueue(object : BaseCallback<KickUserResponse>(this) {
+                override fun handleSuccess(response: Response<KickUserResponse>) {
+                    super.handleSuccess(response)
+                    tryGetDebts(username, group_name)
+                }
+            })
     }
 }
