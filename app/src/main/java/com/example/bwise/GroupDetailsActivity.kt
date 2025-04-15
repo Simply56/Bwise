@@ -19,8 +19,6 @@ import com.example.bwise.DataClasses.AddExpenseResponse
 import com.example.bwise.DataClasses.Debt
 import com.example.bwise.DataClasses.GetDebtsRequest
 import com.example.bwise.DataClasses.GetDebtsResponse
-import com.example.bwise.DataClasses.GetUserGroupsRequest
-import com.example.bwise.DataClasses.GetUserGroupsResponse
 import com.example.bwise.DataClasses.SettleUpRequest
 import com.example.bwise.DataClasses.SettleUpResponse
 import retrofit2.Response
@@ -171,6 +169,10 @@ class GroupDetailsActivity : AppCompatActivity() {
             })
     }
 
+    /**
+     * Gets the user's debts from the API and displays them in the UI.
+     * Also updates the group member list.
+     */
     private fun tryGetDebts(username: String, group_name: String) {
         var request = GetDebtsRequest(username, group_name)
 
