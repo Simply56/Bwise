@@ -23,7 +23,7 @@ import retrofit2.Response
 import kotlin.math.min
 
 class GroupsOverviewActivity : AppCompatActivity() {
-    var username: String = ""
+    private var username: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
