@@ -46,7 +46,7 @@ interface ApiService {
 
 object RetrofitClient {
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://152.67.64.149:5000")
+        .baseUrl("http://152.67.64.149:5000") // Oracle VPS IP
         .addConverterFactory(GsonConverterFactory.create()) // Use Gson for JSON parsing
         .build()
 
