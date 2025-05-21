@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bwise"
+    namespace = "com.blue_marble.bwise"
     compileSdk = 35
 
     defaultConfig {
