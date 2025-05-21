@@ -8,7 +8,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.bwise"
+        applicationId = "com.blue_marble.bwise"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
